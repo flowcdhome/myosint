@@ -1,83 +1,109 @@
-# myosint
+<div align="center">
 
-🇬🇧 English | [🇷🇺 Русский](README.ru.md)
+# 🔎 myosint
 
-A small OSINT command-line tool that works with **publicly available data only**.
+**Lightweight OSINT CLI: usernames, emails, 600+ sites. Public data only.**
 
-## Features
+🇬🇧 English · [🇷🇺 Русский](README.ru.md)
 
-- Username lookup across several public sites
-- Email checks: MX records and Gravatar profile
-- Auto-detection of the target type (username or email)
-- Update check against GitHub Releases
+[![Release](https://img.shields.io/github/v/release/flowcdhome/myosint?style=for-the-badge&color=2ea44f)](https://github.com/flowcdhome/myosint/releases)
+[![License](https://img.shields.io/github/license/flowcdhome/myosint?style=for-the-badge)](LICENSE)
+![Python](https://img.shields.io/badge/python-3.9%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Platform](https://img.shields.io/badge/platform-Linux-informational?style=for-the-badge&logo=linux&logoColor=white)
 
-## Installation
+</div>
 
-Recommended (isolated install with pipx):
+---
 
-```bash
-pipx install git+https://github.com/flowcdhome/myosint.git
-```
+## ✨ Features
 
-Or with pip inside a virtual environment:
+| | |
+|---|---|
+| ⚡ **Fast mode** | Curated list of reliable sites, no false positives |
+| 🌐 **`-all` mode** | 600+ sites via the [WhatsMyName](https://github.com/WebBreacher/WhatsMyName) database |
+| 📧 **Email checks** | MX records (DNS-over-HTTPS fallback, works behind VPN) and Gravatar |
+| 🤖 **Auto-detect** | `-at` decides whether the target is a username or an email |
+| 🔄 **Self-update check** | `-u` compares your version with the latest GitHub release |
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install git+https://github.com/flowcdhome/myosint.git
-```
-
-Arch Linux prerequisites:
+## 🚀 Quick start
 
 ```bash
+# 1. Install pipx (Arch; Ubuntu/Debian: sudo apt install git python3 pipx)
 sudo pacman -S --needed git python python-pipx
+pipx ensurepath            # then open a new terminal
+
+# 2. Install myosint
+pipx install git+https://github.com/flowcdhome/myosint.git
+
+# 3. Run
+myosint -user johndoe
 ```
 
-Dependencies (`requests`, `rich`, `packaging`, `dnspython`) are installed automatically.
-
-## Usage
+## 📖 Usage
 
 ```bash
-myosint -help                  # show help
-myosint -user johndoe          # search a username
-myosint -m user@example.com    # check an email
-myosint -at johndoe            # auto-detect: username or email
-myosint -at user@example.com
-myosint -u                     # check for updates on GitHub
-myosint -v                     # show version
+myosint -user johndoe             # curated sites (fast)
+myosint -db                       # download the 600+ site database (once)
+myosint -user johndoe -all        # 600+ sites
+myosint -user johndoe -all -nsfw  # include adult sites
+myosint -m user@example.com       # email check
+myosint -at johndoe               # auto-detect username / email
+myosint -u                        # check for updates
 ```
 
-Flags can be combined: `myosint -user johndoe -u`
+<details>
+<summary><b>All flags</b></summary>
 
 | Flag | Description |
 |------|-------------|
-| `-user NICK` | Search a username on public sites |
-| `-m EMAIL` | Check an email (MX records, Gravatar) |
-| `-at TARGET` | Auto-detect the target type and run the matching check |
+| `-user NICK` | Search a username on curated public sites |
+| `-all` | With `-user`: check 600+ sites |
+| `-nsfw` | With `-all`: include adult sites (hidden by default) |
+| `-db` | Download / update the site database |
+| `-m EMAIL` | Check an email (MX, Gravatar) |
+| `-at TARGET` | Auto-detect the target type |
 | `-u` | Check GitHub for a newer release |
-| `-v`, `--version` | Show the version |
+| `-v`, `--version` | Show version |
 | `-help`, `-h`, `--help` | Show help |
 
-## Updating
+</details>
+
+## 🖥️ Example
+
+```text
+$ myosint -user torvalds
+Поиск ника: torvalds
++ GitHub: https://github.com/torvalds
++ GitLab: https://gitlab.com/torvalds
++ Codeberg: https://codeberg.org/torvalds
+- Dev.to: не найден
++ Docker Hub: https://hub.docker.com/u/torvalds
+? Reddit: неясно (ответ 403, возможно блокировка)
+```
+
+**How to read it:** 🟢 `+` profile exists (does *not* prove it is the person you want) · 🔴 `-` not found · 🟡 `?` blocked or no answer.
+
+## 🔄 Updating
 
 ```bash
 myosint -u
 pipx upgrade myosint
 ```
 
-## Limitations
+## ⚠️ Limitations
 
-- A username check is based on the HTTP status code, so false positives and false negatives are possible (some sites return 200 for any page or block bots).
-- A found MX record or Gravatar does not prove that a mailbox exists.
+- Many sites block bots or are unreachable via VPN, such results show as unknown.
+- A found MX record or Gravatar does not prove a mailbox exists.
+- Matches rely on site signatures and may include false positives, verify manually.
 
-## Legal notice
+## ⚖️ Legal
 
-Use this tool only on data you are legally allowed to access, and respect the terms of service of the sites involved and applicable laws. The author is not responsible for misuse.
+Use only on data you are legally allowed to access, and respect site terms and applicable laws. The author is not responsible for misuse.
 
-## License
+## 🙏 Credits
+
+Site signatures for `-all` come from [WhatsMyName](https://github.com/WebBreacher/WhatsMyName) (CC BY-SA 4.0). The database is downloaded on the user's machine and is not bundled here.
+
+## 📄 License
 
 MIT, see [LICENSE](LICENSE).
-
-## Credits
-
-Site signatures for `-all` come from [WhatsMyName](https://github.com/WebBreacher/WhatsMyName) (CC BY-SA 4.0). Use `-nsfw` to include adult sites.
