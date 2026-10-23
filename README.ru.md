@@ -77,3 +77,7 @@ pipx upgrade myosint
 ## Лицензия
 
 MIT, см. [LICENSE](LICENSE).
+
+## Благодарности
+
+Сигнатуры сайтов для `-all` берутся из проекта [WhatsMyName](https://github.com/WebBreacher/WhatsMyName) (CC BY-SA 4.0). Флаг `-nsfw` включает сайты для взрослых.

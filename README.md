@@ -77,3 +77,7 @@ Use this tool only on data you are legally allowed to access, and respect the te
 ## License
 
 MIT, see [LICENSE](LICENSE).
+
+## Credits
+
+Site signatures for `-all` come from [WhatsMyName](https://github.com/WebBreacher/WhatsMyName) (CC BY-SA 4.0). Use `-nsfw` to include adult sites.
